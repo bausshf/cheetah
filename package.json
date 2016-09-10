@@ -10,8 +10,7 @@
 	"sourcePaths": ["src"],
 	"dependencies": {
 		"vibe-d": {
-			"version": "~>0.7.28",
-			"optional": false
+			"version": "~>0.7.28"
 		}
 	}
 }
