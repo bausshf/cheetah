@@ -42,12 +42,16 @@ class SocketServer(T) {
   /// The error events.
   SocketEventChain!T _errorEvents;
 
+  /// Boolean determining whether the connect events should be copied.
   bool _copyConnectEvents;
 
+  /// Boolean determining whether the disconnect events should be copied.
   bool _copyDisconnectEvents;
 
+  /// Boolean determining whether the receive events should be copied.
   bool _copyReceiveEvents;
 
+  /// Boolean determining whether the error events should be copied.
   bool _copyErrorEvents;
 
   /// Boolean determining whether the server is running or not.
@@ -77,26 +81,50 @@ class SocketServer(T) {
   }
 
   @property {
+    /// Gets a boolean determining whether the connect events should be copied or not.
     bool copyConnectEvents() { return _copyConnectEvents; }
 
+    /**
+    * Sets a boolean determining whether the connect events should be copied or not.
+    * Params:
+    *   shouldCopy = Boolean determining whether the connect events should be copied or not.
+    */
     void copyConnectEvents(bool shouldCopy) {
       _copyConnectEvents = shouldCopy;
     }
 
+    /// Gets a boolean determining whether the disconnect events should be copied or not.
     bool copyDisconnectEvents() { return _copyDisconnectEvents; }
 
+    /**
+    * Sets a boolean determining whether the disconnect events should be copied or not.
+    * Params:
+    *   shouldCopy = Boolean determining whether the disconnect events should be copied or not.
+    */
     void copyDisconnectEvents(bool shouldCopy) {
       _copyDisconnectEvents = shouldCopy;
     }
 
+    /// Gets a boolean determining whether the receive events should be copied or not.
     bool copyReceiveEvents() { return _copyReceiveEvents; }
 
+    /**
+    * Sets a boolean determining whether the receive events should be copied or not.
+    * Params:
+    *   shouldCopy = Boolean determining whether the receive events should be copied or not.
+    */
     void copyReceiveEvents(bool shouldCopy) {
       _copyReceiveEvents = shouldCopy;
     }
 
+    /// Gets a boolean determining whether the error events should be copied or not.
     bool copyErrorEvents() { return _copyErrorEvents; }
 
+    /**
+    * Sets a boolean determining whether the error events should be copied or not.
+    * Params:
+    *   shouldCopy = Boolean determining whether the error events should be copied or not.
+    */
     void copyErrorEvents(bool shouldCopy) {
       _copyErrorEvents = shouldCopy;
     }

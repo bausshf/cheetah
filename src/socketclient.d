@@ -45,6 +45,7 @@ class SocketClient(T) {
   /// Boolean determining whether the client has been disconnected or not.
   bool _disconnected;
 
+  /// Generic data that can be associated with the client.
   T _data;
 
   public:
@@ -76,8 +77,14 @@ class SocketClient(T) {
     /// Gets a boolean determining whether the client is connected or not.
     bool connected() @trusted { return !_disconnected && _connection.connected; }
 
+    /// Gets the generic data associated with the client.
     T data() { return _data; }
 
+    /**
+    * Sets the generic data associated with the client.
+    * Params:
+    *   newData = The generic data to associated with the client.
+    */
     void data(T newData) {
       _data = newData;
     }
@@ -203,6 +210,14 @@ class SocketClient(T) {
     auto eventArgs() { return _eventArgs; }
   }
 
+  /**
+  * Sets up events for the client.
+  * Params:
+  *   connectEvents =     The connect events to setup.
+  *   disconnectEvents =  The disconnect events to setup.
+  *   receiveEvents =     The receive events to setup.
+  *   errorEvents =       The error events to setup.
+  */
   void setupEvents(SocketEventChain!T connectEvents, SocketEventChain!T disconnectEvents, SocketEventChain!T receiveEvents, SocketEventChain!T errorEvents) {
     if (connectEvents) _connectEvents = new SocketEventChain!T(connectEvents._events);
     if (disconnectEvents) _disconnectEvents = new SocketEventChain!T(disconnectEvents._events);
