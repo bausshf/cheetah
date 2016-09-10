@@ -5,7 +5,7 @@
 		"Jacob Jensen"
 	],
 	"license": "The MIT License (MIT)",
-	"copyright": "Copyright © 2016 Jacob Jensen",
+	"copyright": "Copyright Â© 2016 Jacob Jensen",
 	"targetType": "sourceLibrary",
 	"sourcePaths": ["src"],
 	"dependencies": {
