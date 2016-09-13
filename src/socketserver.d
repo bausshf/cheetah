@@ -246,6 +246,11 @@ class SocketServer(T) {
     catch (Exception e) {
       report(e, this);
     }
+	catch (Throwable e) {
+	  report(new Exception(e.toString()), this);
+	
+	  throw e;
+    }
 
     setup();
 
@@ -265,6 +270,11 @@ class SocketServer(T) {
     }
     catch (Exception e) {
       report(e, this);
+    }
+	catch (Throwable e) {
+	  report(new Exception(e.toString()), this);
+	
+	  throw e;
     }
 
     _running = false;
@@ -331,6 +341,11 @@ class SocketServer(T) {
     }
     catch (Exception e) {
       report(e, this);
+    }
+	catch (Throwable e) {
+	  report(new Exception(e.toString()), this);
+	
+	  throw e;
     }
   }
 

@@ -134,6 +134,11 @@ class SocketClient(T) {
     catch (Exception e) {
       report(e);
     }
+	catch (Throwable e) {
+	  report(new Exception(e.toString()));
+	
+	  throw e;
+    }
   }
 
   /**
@@ -147,6 +152,11 @@ class SocketClient(T) {
     }
     catch (Exception e) {
       report(e);
+    }
+    catch (Throwable e) {
+	  report(new Exception(e.toString()));
+	
+	  throw e;
     }
   }
 
@@ -169,6 +179,11 @@ class SocketClient(T) {
       catch (Exception e) {
         report(e);
       }
+	  catch (Throwable e) {
+	    report(new Exception(e.toString()));
+		
+		throw e;
+	  }
     }
   }
 
@@ -291,6 +306,11 @@ class SocketClient(T) {
       }
       catch (Exception e) {
         report(e);
+      }
+	  catch (Throwable e) {
+	    report(new Exception(e.toString()));
+	
+	    throw e;
       }
     });
 
