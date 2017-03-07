@@ -48,6 +48,15 @@ class SocketClient(T) {
   /// Generic data that can be associated with the client.
   T _data;
 
+  /// The ip address.
+  string _ipAddress;
+
+  /// The port.
+  ushort _port;
+
+  /// The address string.
+  string _addressString;
+
   public:
   /**
   * Creates a new tcp client.
@@ -59,6 +68,10 @@ class SocketClient(T) {
     _server = server;
     _connection = connection;
     _eventArgs = new SocketEventArgs!T(_server, this);
+
+    _ipAddress = _connection.remoteAddress.toAddressString();
+    _port = _connection.remoteAddress.port;
+    _addressString = _connection.remoteAddress.toString();
   }
 
   @property {
@@ -88,6 +101,18 @@ class SocketClient(T) {
     void data(T newData) {
       _data = newData;
     }
+
+    /// Gets the remote address.
+    auto remoteAddress() { return _connection.remoteAddress; }
+
+    /// Gets the remote ip address.
+    auto ipAddress() pure @safe { return _ipAddress; }
+
+    /// Gets the remote port.
+    auto port() pure @safe { return _port; }
+
+    /// Gets the address string.
+    auto address() pure @safe { return _addressString; }
   }
 
   /**
@@ -136,7 +161,7 @@ class SocketClient(T) {
     }
 	catch (Throwable e) {
 	  report(new Exception(e.toString()));
-	
+
 	  throw e;
     }
   }
@@ -155,7 +180,7 @@ class SocketClient(T) {
     }
     catch (Throwable e) {
 	  report(new Exception(e.toString()));
-	
+
 	  throw e;
     }
   }
@@ -181,7 +206,7 @@ class SocketClient(T) {
       }
 	  catch (Throwable e) {
 	    report(new Exception(e.toString()));
-		
+
 		throw e;
 	  }
     }
@@ -309,7 +334,7 @@ class SocketClient(T) {
       }
 	  catch (Throwable e) {
 	    report(new Exception(e.toString()));
-	
+
 	    throw e;
       }
     });
