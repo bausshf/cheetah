@@ -57,6 +57,15 @@ class SocketServer(T) {
   /// Boolean determining whether the server is running or not.
   bool _running;
 
+  /// Boolean determining whether clients should be stored or not.
+  bool _storeClients;
+
+  /// A collection of clients.
+  (SocketClient!T)[size_t] _clients;
+
+  /// The next client id.
+  size_t _nextClientId;
+
   public:
   /**
   * Creates a new tcp socket server.
@@ -127,6 +136,18 @@ class SocketServer(T) {
     */
     void copyErrorEvents(bool shouldCopy) {
       _copyErrorEvents = shouldCopy;
+    }
+
+    /// Gets a boolean determining whether clients should be stored or not.
+    bool storeClients() { return _storeClients; }
+
+    /**
+    * Sets a boolean determining whether clients should be stored or not.
+    * Params:
+    *   shouldStore = Boolean determining whether clients should be stored or not.
+    */
+    void storeClients(bool shouldStore) {
+      _storeClients = shouldStore;
     }
   }
 
@@ -248,7 +269,7 @@ class SocketServer(T) {
     }
 	catch (Throwable e) {
 	  report(new Exception(e.toString()), this);
-	
+
 	  throw e;
     }
 
@@ -273,11 +294,27 @@ class SocketServer(T) {
     }
 	catch (Throwable e) {
 	  report(new Exception(e.toString()), this);
-	
+
 	  throw e;
     }
 
     _running = false;
+  }
+
+  /**
+  * Gets a client by its client id.
+  * Params:
+  *   clientId = The id of the client to retrieve.
+  * Returns:
+  *   The client associated with the client id or null if no client is found by the id.
+  */
+  auto getClient(size_t clientId) {
+    return _clients.get(clientId, null);
+  }
+
+  /// Gets all clients.
+  auto getClients() {
+    return _clients.values;
   }
 
   package(cheetah) {
@@ -326,6 +363,19 @@ class SocketServer(T) {
     void report(Exception error, SocketServer!T server = null, SocketClient!T client = null) {
       fireEvent(SocketEventType.error, new SocketEventArgs!T(server, client, error));
     }
+
+    /**
+    * Removes a client from the internal client storage.
+    * Params:
+    *   clientId = The client id to remove.
+    */
+    void removeClient(size_t clientId) {
+      if (!_storeClients) {
+        return;
+      }
+      
+      _clients.remove(clientId);
+    }
   }
 
   private:
@@ -344,7 +394,7 @@ class SocketServer(T) {
     }
 	catch (Throwable e) {
 	  report(new Exception(e.toString()), this);
-	
+
 	  throw e;
     }
   }
@@ -362,6 +412,13 @@ class SocketServer(T) {
       _copyReceiveEvents ? _receiveEvents : null,
       _copyErrorEvents ? _errorEvents : null
     );
+
+    if (_storeClients) {
+      client.clientId = _nextClientId;
+      _nextClientId++;
+
+      _clients[client.clientId] = client;
+    }
 
     client.fireEvent(SocketEventType.connect, client.eventArgs);
 

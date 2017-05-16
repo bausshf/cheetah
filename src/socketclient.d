@@ -57,6 +57,9 @@ class SocketClient(T) {
   /// The address string.
   string _addressString;
 
+  /// The client id.
+  size_t _clientId;
+
   public:
   /**
   * Creates a new tcp client.
@@ -113,6 +116,16 @@ class SocketClient(T) {
 
     /// Gets the address string.
     auto address() pure @safe { return _addressString; }
+
+    package(cheetah) {
+      /// Sets the client id.
+      void clientId(size_t newClientId) {
+        _clientId = newClientId;
+      }
+    }
+
+    /// Gets the client id.
+    size_t clientId() { return _clientId; }
   }
 
   /**
@@ -195,6 +208,8 @@ class SocketClient(T) {
       _disconnected = true;
 
       try {
+        _server.removeClient(_clientId);
+        
         if (_connection.connected) {
           _connection.close();
         }
